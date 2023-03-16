@@ -103,7 +103,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::where('id', $id)->with('images')->first();
             return $this->sendSuccess($product, 'Success to add data');
 
         } catch (\Throwable $th) {

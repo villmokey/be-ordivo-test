@@ -31,7 +31,7 @@ Route::prefix('/user')->group(function () {
     Route::post('/', [AuthController::class, 'createUser']);
 });
 
-Route::prefix('/product')->group(function() {
+Route::prefix('/products')->group(function() {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
     Route::post('/', [ProductController::class, 'store'])->middleware('auth:sanctum');;
@@ -41,7 +41,7 @@ Route::prefix('/product')->group(function() {
 
 Route::post('/image',[ImageController::class, 'store'])->middleware('auth:sanctum');
 
-Route::prefix('/transaction')->group(function () {
+Route::prefix('/transactions')->group(function () {
     Route::post('/', [TransactionController::class, 'store']);
     Route::get('/', [TransactionController::class, 'index'])->middleware('auth:sanctum');
     Route::get('/{id}', [TransactionController::class, 'show'])->middleware('auth:sanctum');
