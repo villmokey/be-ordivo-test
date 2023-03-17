@@ -23,5 +23,10 @@ class Product extends BaseModel
     {
         return $this->morphMany(Image::class, 'parent');
     }
+
+    public function transactionDetail()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
     
 }

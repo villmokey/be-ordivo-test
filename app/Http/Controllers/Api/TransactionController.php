@@ -71,7 +71,9 @@ class TransactionController extends Controller
                 'customer_name' => $request->customer_name,
                 'customer_address' => $request->customer_address,
                 'customer_email' => $request->customer_email,
-                'total' => $request->total
+                'total' => $request->total,
+                'payment_total' => $request->payment_total,
+                'payment_change' => $request->payment_change
             ]);
 
             $transaction->detail()->createMany($request->products);
