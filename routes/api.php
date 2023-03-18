@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TransactionController;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,4 +46,8 @@ Route::prefix('/transactions')->group(function () {
     Route::post('/', [TransactionController::class, 'store']);
     Route::get('/', [TransactionController::class, 'index']);
     Route::get('/{id}', [TransactionController::class, 'show']);
+});
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
 });
