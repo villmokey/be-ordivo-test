@@ -34,15 +34,15 @@ Route::prefix('/user')->group(function () {
 Route::prefix('/products')->group(function() {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);
-    Route::post('/', [ProductController::class, 'store'])->middleware('auth:sanctum');;
-    Route::patch('/{id}', [ProductController::class, 'update'])->middleware('auth:sanctum');;
-    Route::delete('/', [ProductController::class, 'destroy'])->middleware('auth:sanctum');;
+    Route::post('/', [ProductController::class, 'store']);
+    Route::patch('/{id}', [ProductController::class, 'update']);
+    Route::delete('/', [ProductController::class, 'destroy']);
 });
 
-Route::post('/image',[ImageController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/image',[ImageController::class, 'store']);
 
 Route::prefix('/transactions')->group(function () {
     Route::post('/', [TransactionController::class, 'store']);
-    Route::get('/', [TransactionController::class, 'index'])->middleware('auth:sanctum');
-    Route::get('/{id}', [TransactionController::class, 'show'])->middleware('auth:sanctum');
+    Route::get('/', [TransactionController::class, 'index']);
+    Route::get('/{id}', [TransactionController::class, 'show']);
 });

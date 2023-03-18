@@ -16,7 +16,10 @@ class Transaction extends BaseModel
         'customer_address',
         'customer_email',
         'total',
-        'transfer_date'
+        'transfer_date',
+        'payment_total',
+        'payment_change',
+        'tax'
     ];
 
     public function detail()

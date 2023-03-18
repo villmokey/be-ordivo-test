@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Traits\ApiResponse;
@@ -53,9 +54,10 @@ class TransactionController extends Controller
         $validateUser = Validator::make($request->all(), 
         [
             'customer_name' => 'required',
-            'customer_address' => 'required',
-            'customer_email' => 'required',
-            'total' => 'required'
+            'total' => 'required',
+            'payment_total' => 'required',
+            'payment_change' => 'required',
+            'tax' => 'required'
         ]);
 
         if($validateUser->fails()){
@@ -73,7 +75,8 @@ class TransactionController extends Controller
                 'customer_email' => $request->customer_email,
                 'total' => $request->total,
                 'payment_total' => $request->payment_total,
-                'payment_change' => $request->payment_change
+                'payment_change' => $request->payment_change,
+                'tax' => $request->tax
             ]);
 
             $transaction->detail()->createMany($request->products);
@@ -81,6 +84,12 @@ class TransactionController extends Controller
             DB::commit();
 
             $transaction['detail'] = TransactionDetail::where('transaction_id', $transaction->id)->with('product')->get();
+
+            for ($i=0; $i < count($transaction['detail']); $i++) { 
+                $product = Product::find($transaction['detail'][$i]['product_id']);
+                $product->stock = $product->stock - $transaction['detail'][$i]['qty'];
+                $product->save();
+            }
 
             return $this->sendSuccess($transaction, 'Success to create transaction');
 
@@ -100,7 +109,7 @@ class TransactionController extends Controller
     public function show($id)
     {
         try {
-            $transaction = Transaction::where('id', $id)->with('detail.product')->get();
+            $transaction = Transaction::where('id', $id)->with('detail.product')->first();
 
             return $this->sendSuccess($transaction, 'Success to get transaction');
         } catch (\Throwable $th) {
